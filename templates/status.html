@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behemot Status</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .status-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .status-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .status-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .status-value {
+            margin-top: 5px;
+            word-break: break-word;
+        }
+        .status-ok {
+            color: #27ae60;
+        }
+        .status-warning {
+            color: #f39c12;
+        }
+        .status-error {
+            color: #e74c3c;
+        }
+        .status-disabled {
+            color: #7f8c8d;
+        }
+        .tools-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .tool-item {
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            padding: 8px;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .tool-item:hover {
+            background-color: #e9ecef;
+        }
+        .refresh-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .refresh-button:hover {
+            background-color: #2980b9;
+        }
+        .timestamp {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .env-vars {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        .collapsible {
+            cursor: pointer;
+            padding: 8px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .collapsible-content {
+            display: none;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .rag-item {
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            padding: 8px;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+        .tool-section {
+            margin-bottom: 15px;
+        }
+        .rag-tools-list {
+            background-color: #e8f4f8;
+        }
+        .rag-tool-item {
+            background-color: #d1ecf1;
+            border-left: 3px solid #0c7cd5;
+        }
+        .rag-tool-item:hover {
+            background-color: #c1e1ea;
+        }
+        .error-detail {
+            font-size: 12px;
+            color: #e74c3c;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .mt-10 {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-header">
+        <h1>Behemot Status Dashboard</h1>
+        <button class="refresh-button" onclick="window.location.reload()">Refrescar</button>
+    </div>
+    
+    <div class="status-card">
+        <div class="status-label">Estado General:</div>
+        <div class="status-value">
+            <span class="status-icon {{ overall_status_class }}">{{ overall_status_icon }}</span>
+            {{ overall_status }}
+        </div>
+        <div class="timestamp">Actualizado: {{ timestamp }}</div>
+    </div>
+    
+    <div class="status-grid">
+        <!-- Configuración -->
+        <div class="status-item">
+            <div class="status-label">
+                <span class="status-icon {{ config_status.icon_class }}">{{ config_status.icon }}</span>
+                Configuración
+            </div>
+            <div class="status-value">
+                <strong>Versión:</strong> {{ config_status.version }}<br>
+                <strong>Nombre:</strong> {{ config_status.assistant_name }}<br>
+                <strong>Modelo:</strong> {{ config_status.model }}<br>
+                <strong>Seguridad:</strong> {{ config_status.safety_level }}<br>
+                <strong>Archivo de configuración:</strong> {{ config_status.config_path }}
+            </div>
+            <div class="collapsible">Ver Variables de Entorno</div>
+            <div class="collapsible-content">
+                <div class="env-vars">
+                    {% for key, value in config_status.env_vars.items() %}
+                    <div><strong>{{ key }}:</strong> {{ value }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Redis -->
+        <div class="status-item">
+            <div class="status-label">
+                <span class="status-icon {{ redis_status.icon_class }}">{{ redis_status.icon }}</span>
+                Redis
+            </div>
+            <div class="status-value">
+                <strong>Estado:</strong> {{ redis_status.status }}<br>
+                {% if redis_status.connected %}
+                <strong>Tiempo de respuesta:</strong> {{ redis_status.response_time_ms }} ms<br>
+                <strong>Lectura/Escritura:</strong> {{ redis_status.read_write }}<br>
+                {% endif %}
+                {% if redis_status.error %}
+                <div class="status-error">{{ redis_status.error }}</div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Herramientas -->
+        <div class="status-item">
+            <div class="status-label">
+                <span class="status-icon {{ tools_status.icon_class }}">{{ tools_status.icon }}</span>
+                Herramientas ({{ tools_status.count }})
+            </div>
+            <div class="status-value">
+                {% if tools_status.rag_tools %}
+                <div class="tool-section">
+                    <strong>Herramientas RAG ({{ tools_status.rag_tools|length }}):</strong>
+                    <div class="tools-list rag-tools-list">
+                        {% for tool in tools_status.rag_tools %}
+                        <div class="tool-item rag-tool-item" title="{{ tool.description }}">{{ tool.name }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if tools_status.tools %}
+                <div class="tool-section">
+                    <strong>Otras Herramientas ({{ tools_status.tools|length }}):</strong>
+                    <div class="tools-list">
+                        {% for tool in tools_status.tools %}
+                        <div class="tool-item" title="{{ tool.description }}">{{ tool.name }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if not tools_status.tools and not tools_status.rag_tools %}
+                <div class="status-warning">No hay herramientas registradas</div>
+                {% endif %}
+                
+                {% if tools_status.error %}
+                <div class="status-error">{{ tools_status.error }}</div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Sistema RAG -->
+        <div class="status-item">
+            <div class="status-label">
+                <span class="status-icon {{ rag_status.icon_class }}">{{ rag_status.icon }}</span>
+                Sistema RAG
+            </div>
+            <div class="status-value">
+                <strong>Estado:</strong> {{ rag_status.status }}<br>
+                {% if rag_status.enabled %}
+                <strong>Proveedor:</strong> {{ rag_status.embedding_provider }}<br>
+                <strong>Modelo:</strong> {{ rag_status.embedding_model }}<br>
+                <div class="collapsible">Colecciones configuradas</div>
+                <div class="collapsible-content">
+                    {% if rag_status.collections %}
+                    {% for collection in rag_status.collections %}
+                    <div class="rag-item">
+                        {{ collection.name }}: 
+                        {% if collection.initialized == True %}
+                        <span class="status-ok">✓ Inicializada</span>
+                        {% elif collection.initialized == False %}
+                        <span class="status-error">✗ No inicializada</span>
+                        {% else %}
+                        <span class="status-warning">? Estado desconocido</span>
+                        {% endif %}
+                        {% if collection.error %}
+                        <div class="error-detail">{{ collection.error }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="status-warning">No hay colecciones configuradas</div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% if rag_status.error %}
+                <div class="status-error mt-10">{{ rag_status.error }}</div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Modelo -->
+        <div class="status-item">
+            <div class="status-label">
+                <span class="status-icon {{ model_status.icon_class }}">{{ model_status.icon }}</span>
+                Modelo LLM
+            </div>
+            <div class="status-value">
+                <strong>Modelo:</strong> {{ model_status.model_name }}<br>
+                <strong>API Key:</strong> {{ model_status.api_key_status }}<br>
+                <strong>Temperatura:</strong> {{ model_status.temperature }}<br>
+                <strong>Máx. Tokens:</strong> {{ model_status.max_tokens }}
+            </div>
+        </div>
+        
+        <!-- Rendimiento -->
+        <div class="status-item">
+            <div class="status-label">
+                <span class="status-icon status-ok">📊</span>
+                Rendimiento
+            </div>
+            <div class="status-value">
+                <strong>Tiempo total verificación:</strong> {{ performance.check_time_ms }} ms<br>
+                <strong>Memoria utilizada:</strong> {{ performance.memory_usage }} MB<br>
+                <strong>Tiempo de carga:</strong> {{ performance.startup_time }} s<br>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Script para el comportamiento de los elementos colapsables
+        var collapsibles = document.getElementsByClassName("collapsible");
+        for (var i = 0; i < collapsibles.length; i++) {
+            collapsibles[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

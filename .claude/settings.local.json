@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($rw = Get-Command railway -ErrorAction SilentlyContinue; if \\($rw\\) { Write-Host \"OK -> $\\($rw.Source\\)\"; railway --version } else { Write-Host \"No quedo en PATH de esta sesion. Bin global de npm:\"; npm prefix -g; Write-Host \"Probando ruta directa:\"; & \"$\\(npm prefix -g\\)\\\\railway.cmd\" --version })",
+      "PowerShell(railway up *)",
+      "PowerShell(railway add *)",
+      "PowerShell(railway domain *)",
+      "PowerShell(railway logs *)"
+    ]
+  }
+}

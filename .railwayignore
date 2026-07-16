@@ -1,0 +1,11 @@
+# Archivos que NO se suben a Railway (locales / Windows / secretos).
+.venv/
+redis/
+__pycache__/
+*.pyc
+*.log
+dump.rdb
+.env
+# Solo-local (no aplican en el hosting Linux de Railway):
+start.ps1
+main_local.py

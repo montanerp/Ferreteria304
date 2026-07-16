@@ -1,0 +1,5 @@
+# Framework + extra de voz (Whisper) para transcribir audios.
+behemot-framework[voice]
+
+# Servidor ASGI para exponer el webhook.
+uvicorn
