@@ -48,4 +48,5 @@ ADMIN_USERS:
     permissions: ["super_admin"]
 
 ENABLE_VOICE: true        # Transcribe audios entrantes con Whisper
+WHATSAPP_RESPONSE_MODE: "adaptive"
 ENABLE_RAG: false         # El stock se consulta con tools (precisas), no con RAG.

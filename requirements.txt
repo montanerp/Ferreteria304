@@ -1,5 +1,3 @@
-# Framework + extra de voz (Whisper) para transcribir audios.
-behemot-framework[voice]
-
-# Servidor ASGI para exponer el webhook.
-uvicorn
+behemot-framework[rag,voice,voice-elevenlabs]==0.6.26
+python-dotenv
+uvicorn[standard]
