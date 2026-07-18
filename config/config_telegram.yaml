@@ -11,7 +11,7 @@ ASSISTANT_NAME: "FerreBot"
 ASSISTANT_DESCRIPTION: "Asistente de presupuestos para ferreteria (Telegram + Behemot)."
 
 MODEL_PROVIDER: "openai"
-MODEL_NAME: "gpt-4o-mini"
+MODEL_NAME: "gpt-4o"
 MODEL_TEMPERATURE: 0.3
 MODEL_MAX_TOKENS: 800
 
