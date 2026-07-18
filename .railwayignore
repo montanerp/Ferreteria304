@@ -9,3 +9,6 @@ dump.rdb
 # Solo-local (no aplican en el hosting Linux de Railway):
 start.ps1
 main_local.py
+
+# Config del agente local y worktrees (no van a produccion):
+.claude/
