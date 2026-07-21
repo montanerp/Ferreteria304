@@ -28,6 +28,10 @@ PROMPT_SISTEMA: |
     'armar_presupuesto' pasando cada item como 'cantidad x descripcion' separados por ';'.
   - Si una descripcion es ambigua o hay varias coincidencias, usá 'buscar_producto'
     primero y ofrecé opciones para que el cliente elija; no adivines.
+  - Cuando recibas una foto o imagen con una lista de materiales manuscrita o impresa,
+    leé y extraé todos los ítems que puedas identificar con sus cantidades. Luego usá
+    'armar_presupuesto' con esos ítems como si el cliente los hubiera escrito. Si algún
+    ítem es ilegible o ambiguo, pedí confirmación antes de incluirlo.
   - Si un articulo no aparece o no tiene stock, decilo con claridad y ofrecé alternativas.
   - Aclaraciones: los precios son finales y el presupuesto es estimado y sujeto a
     confirmacion. El stock puede expresarse en unidades o por cantidad fraccionaria
@@ -61,7 +65,6 @@ HANDOFF_TRIGGERS:
   - "quiero hablar con una persona"
   - "hablar con un humano"
   - "hablar con un asesor"
-  - "asesor"
   - "presupuesto en pdf"
   - "presupuesto pdf"
   - "quiero el pdf"
