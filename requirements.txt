@@ -1,3 +1,3 @@
-behemot-framework[rag,voice,voice-elevenlabs]==0.6.26
+behemot-framework[rag,voice,voice-elevenlabs]==0.6.28
 python-dotenv
 uvicorn[standard]
