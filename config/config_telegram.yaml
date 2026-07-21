@@ -69,3 +69,6 @@ HANDOFF_TRIGGERS:
   - "presupuesto pdf"
   - "quiero el pdf"
   - "mandame el pdf"
+
+# Mensaje que se le envia al cliente al iniciar la derivacion a un asesor.
+HANDOFF_START_MESSAGE: "Te estamos conectando con el equipo de ventas, en breve te atienden."
