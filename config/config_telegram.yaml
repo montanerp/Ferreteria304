@@ -50,3 +50,19 @@ ADMIN_USERS:
 ENABLE_VOICE: true        # Transcribe audios entrantes con Whisper
 WHATSAPP_RESPONSE_MODE: "adaptive"
 ENABLE_RAG: false         # El stock se consulta con tools (precisas), no con RAG.
+
+# --- Derivacion a humano (handoff) ---
+# Frases que, si aparecen en el mensaje del cliente, disparan la derivacion a un asesor.
+# Las claves/URLs del handoff (HANDOFF_API_KEY, HANDOFF_WEBHOOK_URL, etc.) siguen yendo
+# por variables de entorno (.env / Railway); aca solo van los triggers.
+# OJO: debe ser una lista YAML (no un string separado por comas). Este valor PISA a la
+# variable de entorno HANDOFF_TRIGGERS.
+HANDOFF_TRIGGERS:
+  - "quiero hablar con una persona"
+  - "hablar con un humano"
+  - "hablar con un asesor"
+  - "asesor"
+  - "presupuesto en pdf"
+  - "presupuesto pdf"
+  - "quiero el pdf"
+  - "mandame el pdf"
