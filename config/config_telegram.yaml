@@ -50,6 +50,15 @@ ADMIN_USERS:
   - user_id: "123456789"
     platform: "telegram"
     permissions: ["super_admin"]
+  - user_id: "5493816507475"
+    platform: "whatsapp"
+    permissions: ["super_admin"]
+  - user_id: "5493815837267"
+    platform: "whatsapp"
+    permissions: ["super_admin"]
+  - user_id: "5493814010106"
+    platform: "whatsapp"
+    permissions: ["super_admin"]
 
 ENABLE_VOICE: true        # Transcribe audios entrantes con Whisper
 WHATSAPP_RESPONSE_MODE: "adaptive"
